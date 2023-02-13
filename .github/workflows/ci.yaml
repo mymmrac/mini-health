@@ -15,6 +15,7 @@ on:
 
 jobs:
   docker:
+    name: Docker
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -65,6 +66,8 @@ jobs:
           context: .
           load: true
           tags: mymmrac/mimi-health:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Test
         run: |

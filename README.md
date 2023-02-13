@@ -1,5 +1,7 @@
 # Mini Health
 
+[![CI](https://github.com/mymmrac/mini-health/actions/workflows/ci.yaml/badge.svg)](https://github.com/mymmrac/mini-health/actions/workflows/ci.yaml)
+
 Simplest HTTP health check for scratch docker images 
 
 ## Usage
