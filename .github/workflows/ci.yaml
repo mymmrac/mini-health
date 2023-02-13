@@ -2,15 +2,10 @@ name: CI
 
 on:
   schedule:
-    - cron: "0 10 * * *"
+    - cron: "0 7 * * 6"
   push:
-    branches:
-      - "**"
     tags:
       - "v*.*.*"
-  pull_request:
-    branches:
-      - "main"
   workflow_dispatch: { }
 
 jobs:
@@ -27,17 +22,15 @@ jobs:
         with:
           # List of Docker images to use as base name for tags
           images: |
-            mymmrac/mimi-health
-            ghcr.io/mymmrac/mimi-health
+            ${{ secrets.DOCKERHUB_USERNAME }}/mimi-health
+            ghcr.io/${{ secrets.DOCKERHUB_USERNAME }}/mimi-health
           # Generate Docker tags based on the following events/attributes
           tags: |
-            type=schedule
-            type=ref,event=branch
-            type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-            type=sha
+            type=edge,branch=main
+            type=schedule
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -65,13 +58,13 @@ jobs:
         with:
           context: .
           load: true
-          tags: mymmrac/mimi-health:test
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/mimi-health:test
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Test
         run: |
-          docker run --rm mymmrac/mimi-health:test
+          docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/mimi-health:test
 
       - name: Build and push
         uses: docker/build-push-action@v4
@@ -89,4 +82,4 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          repository: mymmrac/mimi-health
+          repository: ${{ secrets.DOCKERHUB_USERNAME }}/mimi-health
