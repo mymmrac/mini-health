@@ -23,15 +23,15 @@ COPY --from=mymmrac/mini-health:latest \
 
 ## Options
 
-`mini-health [OPTIONS] URL`
+Usage `mini-health [OPTIONS] URL`
 
-| Option      | Description                                                                         |
-|-------------|-------------------------------------------------------------------------------------|
-| -c `int`    | Smallest HTTP status code that is considered as an error (default: 400 bad request) |
-| -d `string` | Data passed as body of request                                                      |
-| -e `string` | Name of environment variable used as base URL                                       |
-| -m `string` | HTTP method used for request (default: GET)                                         |
-| -q          | Quiet output (print only errors)                                                    |
+| Option        | Description                                                                         |
+|---------------|-------------------------------------------------------------------------------------|
+| `-c` `int`    | Smallest HTTP status code that is considered as an error (default: 400 bad request) |
+| `-d` `string` | Data passed as body of request                                                      |
+| `-e` `string` | Name of environment variable used as base URL                                       |
+| `-m` `string` | HTTP method used for request (default: GET)                                         |
+| `-q`          | Quiet output (print only errors)                                                    |
 
 ### Example
 
