@@ -3,7 +3,7 @@
 [![CI](https://github.com/mymmrac/mini-health/actions/workflows/ci.yaml/badge.svg)](https://github.com/mymmrac/mini-health/actions/workflows/ci.yaml)
 [![Docker Pulls](https://img.shields.io/docker/pulls/mymmrac/mini-health)](https://hub.docker.com/r/mymmrac/mini-health)
 
-Simplest HTTP health check for scratch docker images 
+Simplest HTTP health check for scratch docker images
 
 ## Usage
 
@@ -11,7 +11,7 @@ In your Dockerfile:
 
 ```dockerfile
 COPY --from=mymmrac/mini-health:latest /mini-health /mini-health
-HEALTHCHECK CMD /mini-health https://example.org
+HEALTHCHECK CMD ["/mini-health", "https://example.org"]
 ```
 
 Optionally copy ca-certificates if you don't have them already:
@@ -20,6 +20,25 @@ Optionally copy ca-certificates if you don't have them already:
 COPY --from=mymmrac/mini-health:latest \
     /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 ```
+
+## Options
+
+`mini-health [OPTIONS] URL`
+
+| Option      | Description                                                                         |
+|-------------|-------------------------------------------------------------------------------------|
+| -c `int`    | Smallest HTTP status code that is considered as an error (default: 400 bad request) |
+| -e `string` | Name of environment variable used as base URL                                       |
+| -q          | Quiet output (print only errors)                                                    |
+
+### Example
+
+```dockerfile
+COPY --from=mymmrac/mini-health:latest /mini-health /mini-health
+HEALTHCHECK CMD ["/mini-health", "-e", "BASE_URL", "-c", "500", "/health"]
+```
+
+In this example `GET` request to URL `$BASE_URL/health` will be called and checked for status codes greater than `500`.
 
 ## Install manually
 
