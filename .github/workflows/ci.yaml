@@ -4,6 +4,8 @@ on:
   schedule:
     - cron: "0 7 * * 6"
   push:
+    branches:
+      - "main"
     tags:
       - "v*.*.*"
   workflow_dispatch: { }
