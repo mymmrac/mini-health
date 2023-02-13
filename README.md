@@ -28,17 +28,19 @@ COPY --from=mymmrac/mini-health:latest \
 | Option      | Description                                                                         |
 |-------------|-------------------------------------------------------------------------------------|
 | -c `int`    | Smallest HTTP status code that is considered as an error (default: 400 bad request) |
+| -d `string` | Data passed as body of request                                                      |
 | -e `string` | Name of environment variable used as base URL                                       |
+| -m `string` | HTTP method used for request (default: GET)                                         |
 | -q          | Quiet output (print only errors)                                                    |
 
 ### Example
 
 ```dockerfile
-COPY --from=mymmrac/mini-health:latest /mini-health /mini-health
 HEALTHCHECK CMD ["/mini-health", "-e", "BASE_URL", "-c", "500", "/health"]
 ```
 
-In this example `GET` request to URL `$BASE_URL/health` will be called and checked for status codes greater than `500`.
+In this example `GET` request to URL `$BASE_URL/health` with no body will be made,
+HTTP status codes greater than `500` will be reported as errors.
 
 ## Install manually
 
